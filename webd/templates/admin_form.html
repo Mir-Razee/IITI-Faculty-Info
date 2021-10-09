@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+Form
+{% endblock %}
+
+{% block nav %}
+<form action="/logout">
+    <button class="btn btn-danger" type="submit">Logout</button>
+</form>
+{% endblock %}
+
+
+{% block content %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
+<div>
+
+    <body>
+<h1> Admin: Register Faculty</h1>
+<div class="login">
+	<form action="" class="form" method="post">
+		<img src="static/styles/profile.png" alt="">
+		<h2>Register Faculty</h2>
+		<div class="input-group">
+			<input type="text" name="email" id="email" required>
+			<label for="email">Faculty Email</label>
+		</div>
+		<div class="input-group">
+			<input type="text" name="name" id="name" required>
+			<label for="name">Faculty Name</label>
+		</div>
+		<div class="input-group">
+			<input type="text" name="dept" id="dept" required>
+			<label for="dept">Department name</label>
+		</div>
+		<div class="input-group">
+			<input type="password" name="pwd" id="pwd" required>
+			<label for="pwd">Password</label>
+		</div>
+		<input type="checkbox" onclick="showPass()" class="showPwd" id="showPwd">
+		<label for ="showPwd" class="pass" id="pass"> Show Password </label>
+		<input type ="submit" value="Register" class="submit-btn">
+	</form>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert {{ category }}"> {{ message }} </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</body>
+
+</div>
+
+{% endblock %}

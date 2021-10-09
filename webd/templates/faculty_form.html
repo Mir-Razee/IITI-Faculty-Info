@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}
+Course Details
+{% endblock %}
+
+
+
+{% block content %}
+<head>
+	<meta charset="utf-8">
+	<title>Register Course</title>
+</head>
+<body>
+<h1> Register Course </h1>
+<div class="parent" align="center">
+	<p>Email : {{email}}</p>
+	<p>Name: {{name}}</p>
+	<p>Department : {{dept}}</p>
+<form action="" method="post">
+
+	<div class="input-group">
+			<label for="course">Course</label><br>
+			<input type="textbox" name="course" id="course" required>
+	</div>
+	<div class="input-group">
+			<label for="year">Year</label><br>
+			<input type="textbox" name="year" id="year" required>
+	</div>
+	<div class="input-group">
+			<label for="room_no">Room no</label><br>
+			<input type="textbox" name="room_no" id="room_no" required>
+	</div>
+	<div class="input-group">
+			<label for="classes">Classes per week</label><br>
+			<input type="textbox" name="classes" id="classes" required>
+	</div>
+	<input type ="submit" value="Register" class="submit-btn">
+</form>
+</div>
+</body>
+{% endblock %}
