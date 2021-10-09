@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block nav %}
+<ul class="navbar-nav">
+  <li class="nav-item">
+  <form action="/login">
+      <button class="btn btn-light" type="submit">Sign in(for admin only)</button>
+  </form>
+  </li>
+</ul>
+{% endblock %}
+
+
+{% block content %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
+<div>
+  <form>
+    
+    <div class="form">
+      <div>
+        <label for="dept">Department</label>
+        <select class="form-select" name="dept" aria-label="Default select example">
+          <option selected>Select a Department</option>
+
+        </select>
+      </div>
+
+      <div>
+        <label for="fac">Faculty</label>
+        <select class="form-select" name="fac">
+          <option selected>Select a Department</option>
+
+        </select>
+      </div>
+
+      <div>
+        <label for="year">Year</label>
+        <select class="form-select" name="year">
+          <option selected>Select a Year</option>
+
+        </select>
+      </div>
+      
+      <div>
+        <button type="submit" class="btn btn-warning">Submit</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}

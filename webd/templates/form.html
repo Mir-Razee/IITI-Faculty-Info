@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+Form
+{% endblock %}
+
+{% block nav %}
+<form action="/logout">
+    <button class="btn btn-danger" type="submit">Logout</button>
+</form>
+{% endblock %}
+
+
+{% block content %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
+<div>
+  <form>
+    
+  </form>
+</div>
+
+{% endblock %}
