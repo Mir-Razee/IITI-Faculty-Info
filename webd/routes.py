@@ -1,7 +1,4 @@
-from sqlalchemy import create_engine
-
 from sqlalchemy.testing import db
-from sqlalchemy.orm import scoped_session, sessionmaker
 from passlib.hash import sha256_crypt
 import sys
 
@@ -46,22 +43,8 @@ def logout():
 
 
 
-engine = create_engine("mysql://root:Hosamani29m$@localhost/lab5", echo=True)
-
-#Check connection
-try:
-    conn = engine.connect()
-except Exception as e:
-    print('Connection Failed\nError Details:', e)
-    sys.exit(1)
-conn.close()
-
-db = scoped_session(sessionmaker(bind=engine))
-log = False
-
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
-    print(log)
     if request.method == "POST":
         email = request.form.get("email")
         name = request.form.get("name")

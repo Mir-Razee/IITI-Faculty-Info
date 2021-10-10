@@ -12,5 +12,6 @@ div{
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 label{
-    font-weight: bold;
+    padding: 20px !important;
+    padding-top: 23px !important;
 }

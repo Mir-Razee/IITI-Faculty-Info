@@ -1,41 +1,46 @@
 {% extends 'base.html' %}
 {% block title %}
-Course Details
+Register Course
 {% endblock %}
 
-
+{% block nav %}
+<form action="/logout">
+    <button class="btn btn-danger" type="submit">Logout</button>
+</form>
+{% endblock %}
 
 {% block content %}
-<head>
-	<meta charset="utf-8">
-	<title>Register Course</title>
-</head>
-<body>
-<h1> Register Course </h1>
-<div class="parent" align="center">
-	<p>Email : {{email}}</p>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
+<div class="form">
+	<!-- <p>Email : {{email}}</p>
 	<p>Name: {{name}}</p>
-	<p>Department : {{dept}}</p>
-<form action="" method="post">
+	<p>Department : {{dept}}</p> -->
+	<form action="" method="post">
+		<h2> Register Course </h2>
 
-	<div class="input-group">
-			<label for="course">Course</label><br>
-			<input type="textbox" name="course" id="course" required>
-	</div>
-	<div class="input-group">
-			<label for="year">Year</label><br>
-			<input type="textbox" name="year" id="year" required>
-	</div>
-	<div class="input-group">
-			<label for="room_no">Room no</label><br>
-			<input type="textbox" name="room_no" id="room_no" required>
-	</div>
-	<div class="input-group">
-			<label for="classes">Classes per week</label><br>
-			<input type="textbox" name="classes" id="classes" required>
-	</div>
-	<input type ="submit" value="Register" class="submit-btn">
-</form>
+		<div class="form-floating">
+			<input type="text" class="form-control" placeholder="Course_Name" name="course_name">
+			<label for="course_name">Course Name</label>
+		</div>
+		<div class="form-floating">
+			<input type="text" class="form-control" placeholder="Course_ID" name="course_id">
+			<label for="course_id">Course ID</label>
+		</div>
+		<div class="form-floating">
+			<input type="text" class="form-control" placeholder="Room_No" name="room_no">
+			<label for="room_no">Room Number</label>
+		</div>
+		<div class="form-floating">
+			<input type="number" min="1" max="5" class="form-control" placeholder="0" name="no_of_classes">
+			<label for="no_of_classes">Number of classes per week</label>
+		</div>
+		<div>
+			<button type="submit" class="btn btn-warning">Submit</button>
+		</div>
+	</form>
 </div>
+
 </body>
 {% endblock %}

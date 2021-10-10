@@ -19,12 +19,16 @@ Home
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
 <div>
+  <div>
+    <p class="heading">
+      Welcome to IIT Indore's Information website! <br>
+      Here, you will be able to retrieve Information about the Courses, Faculty, etc of IIT Indore.
+    </p>
+  </div>
   <form>
-    
     <div class="form">
-      <div>
-        <label for="dept">Department</label>
-        <select class="form-select" name="dept" aria-label="Default select example">
+      <div class="form-floating">
+        <select class="form-select" name="dept">
           <option selected>Select a Department</option>
           <option value="CSE">CSE</option>
           <option value="ME">ME</option>
@@ -33,26 +37,43 @@ Home
           <option value="MEMS">MEMS</option>
           <option value="Mathematics">Mathematics</option>
           <option value="HSC">HSC</option>
-         <option value="BSBE">BSBE</option>
+          <option value="BSBE">BSBE</option>
           <option value="Physics">Physics</option>
           <option value="Astronomy">Astronomy</option>
         </select>
+        <label for="dept">Department</label>
       </div>
 
-      <div>
-        <label for="fac">Faculty</label>
+      <div class="form-floating">
         <select class="form-select" name="fac">
-          <option selected>Select a Department</option>
-
+          <option selected>Select a Faculty</option>
         </select>
+        <label for="fac">Faculty</label>
       </div>
 
-      <div>
-        <label for="year">Year</label>
-        <select class="form-select" name="year">
-          <option selected>Select a Year</option>
-
-        </select>
+      <div class="row g-3">
+        <div class="col">
+          <select name="from_year" class="form-select">
+            <option selected>From</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+          </select>
+        </div>
+        <div class="col">
+          <select name="to_year" class="form-select">
+            <option selected>To</option>
+            <option value=""></option>
+          </select>
+        </div>
       </div>
       
       <div>

@@ -16,41 +16,48 @@ Form
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
 <div>
 
-    <body>
-<h1> Admin: Register Faculty</h1>
-<div class="login">
-	<form action="" class="form" method="post">
-		<img src="static/styles/profile.png" alt="">
-		<h2>Register Faculty</h2>
-		<div class="input-group">
-			<input type="text" name="email" id="email" required>
-			<label for="email">Faculty Email</label>
-		</div>
-		<div class="input-group">
-			<input type="text" name="name" id="name" required>
-			<label for="name">Faculty Name</label>
-		</div>
-		<div class="input-group">
-			<input type="text" name="dept" id="dept" required>
-			<label for="dept">Department name</label>
-		</div>
-		<div class="input-group">
-			<input type="password" name="pwd" id="pwd" required>
-			<label for="pwd">Password</label>
-		</div>
-		<input type="checkbox" onclick="showPass()" class="showPwd" id="showPwd">
-		<label for ="showPwd" class="pass" id="pass"> Show Password </label>
-		<input type ="submit" value="Register" class="submit-btn">
-	</form>
-</div>
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert {{ category }}"> {{ message }} </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-</body>
+	<h1> Admin: Register Faculty</h1>
+	<div class="form">
+		<form action="" method="post">
+
+			<h2>Register Faculty</h2>
+			<div class="form-floating">
+				<input type="text" class="form-control" placeholder="Username" name="name">
+				<label for="name">Faculty Name</label>
+			</div>
+			<div class="form-floating">
+				<input type="email" class="form-control" placeholder="Email" name="email">
+				<label for="email">Faculty Email</label>
+			</div>
+			<div class="form-floating">
+				<select class="form-select" name="dept">
+					<option selected>Select a Department</option>
+					<option value="CSE">CSE</option>
+					<option value="ME">ME</option>
+					<option value="EE">EE</option>
+					<option value="CE">CE</option>
+					<option value="MEMS">MEMS</option>
+					<option value="Mathematics">Mathematics</option>
+					<option value="HSC">HSC</option>
+					<option value="BSBE">BSBE</option>
+					<option value="Physics">Physics</option>
+					<option value="Astronomy">Astronomy</option>
+				</select>
+				<label for="dept">Department</label>
+			</div>
+			
+			<div>
+				<button type="submit" class="btn btn-warning">Submit</button>
+			</div>
+		</form>
+	</div>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		{% for category, message in messages %}
+		<div class="alert {{ category }}"> {{ message }} </div>
+		{% endfor %}
+	{% endif %}
+	{% endwith %}
 
 </div>
 
