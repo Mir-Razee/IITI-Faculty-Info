@@ -32,9 +32,9 @@ def form():
     email = user.get("email")
     table_data = db.execute("SELECT email FROM faculty WHERE email =:email", {"email": email}).fetchone()
     if email == "cse200001054@iiti.ac.in":
-        return render_template('faculty_form.html',user=user)
-    elif table_data:
         return render_template('admin_form.html',user=user)
+    elif table_data:
+        return render_template('faculty_form.html',user=user)
     else:
         return "Please go back and Login as admin or faculty"
 
@@ -81,7 +81,7 @@ def faculty(session=session):
         table_data = db.execute("SELECT email FROM faculty WHERE email =:email",
                                 {"email": email}).fetchone()
 
-    user = dict(session).get('profile', None);
+    user = dict(session).get('profile', None)
     return render_template("faculty_form.html", user=user)
 
 @app.route("/data1",methods=["GET","POST"])
