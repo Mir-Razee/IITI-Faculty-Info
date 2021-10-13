@@ -4,22 +4,21 @@ Form
 {% endblock %}
 
 {% block nav %}
-<form action="/logout">
-    <button class="btn btn-danger" type="submit">Logout</button>
-</form>
+		<a class="w3-bar-item w3-button w3-padding-medium btn w3-red btn-secondary" href="{{ url_for('logout') }}">Logout</a>
 {% endblock %}
 
 
 {% block content %}
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/form.css') }}">
-<div>
+<head>
+	<meta charset="utf-8">
+	<title>Admin</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_style.css') }}">
+	<script src="{{ url_for('static', filename='JS/script.js') }}"></script>
 
-    <body>
-<h1> Admin: Register Faculty</h1>
+</head>
+<body>
 <div class="login">
-	<form action="" class="form" method="post">
+	<form action="/admin" class="form" method="post">
 		<img src="static/styles/profile.png" alt="">
 		<h2>Register Faculty</h2>
 		<div class="input-group">
@@ -34,12 +33,6 @@ Form
 			<input type="text" name="dept" id="dept" required>
 			<label for="dept">Department name</label>
 		</div>
-		<div class="input-group">
-			<input type="password" name="pwd" id="pwd" required>
-			<label for="pwd">Password</label>
-		</div>
-		<input type="checkbox" onclick="showPass()" class="showPwd" id="showPwd">
-		<label for ="showPwd" class="pass" id="pass"> Show Password </label>
 		<input type ="submit" value="Register" class="submit-btn">
 	</form>
 </div>
@@ -50,6 +43,7 @@ Form
     {% endfor %}
   {% endif %}
 {% endwith %}
+</body>
 </body>
 
 </div>

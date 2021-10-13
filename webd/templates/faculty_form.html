@@ -3,7 +3,9 @@
 Course Details
 {% endblock %}
 
-
+{% block nav %}
+		<a class="w3-bar-item w3-button w3-padding-medium btn w3-red btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
 
 {% block content %}
 <head>
@@ -13,29 +15,26 @@ Course Details
 <body>
 <h1> Register Course </h1>
 <div class="parent" align="center">
-	<p>Email : {{email}}</p>
-	<p>Name: {{name}}</p>
-	<p>Department : {{dept}}</p>
-<form action="" method="post">
+	<p>Email : {{user.get('email')}}</p>
+	<p>Name: {{user.get('name')}}</p>
+</div>
+<div class="w3-container w3-content w3-padding-64 " style="max-width:800px">
+		<form method="POST" class="form-register">
 
-	<div class="input-group">
-			<label for="course">Course</label><br>
-			<input type="textbox" name="course" id="course" required>
-	</div>
-	<div class="input-group">
-			<label for="year">Year</label><br>
-			<input type="textbox" name="year" id="year" required>
-	</div>
-	<div class="input-group">
-			<label for="room_no">Room no</label><br>
-			<input type="textbox" name="room_no" id="room_no" required>
-	</div>
-	<div class="input-group">
-			<label for="classes">Classes per week</label><br>
-			<input type="textbox" name="classes" id="classes" required>
-	</div>
-	<input type ="submit" value="Register" class="submit-btn">
-</form>
+					<h2 class="w3-medium ">Course</h2>
+					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="course" id="course" required>
+					<br><br><br>
+					<h2 class="w3-medium ">Year</h2>
+					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="year" id="year" required>
+					<br><br><br>
+					<h2 class="w3-medium ">Room No.</h2>
+					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="room_no" id="room_no" required>
+					<br><br><br>
+					<h2 class="w3-medium ">Number of classes</h2>
+					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="classes" id="classes" required>
+			<br><br><br>
+			<input type ="submit" value="Register" class="w3-bar-item w3-button w3-padding-medium btn w3-green btn-secondary">
+		</form>
 </div>
 </body>
 {% endblock %}

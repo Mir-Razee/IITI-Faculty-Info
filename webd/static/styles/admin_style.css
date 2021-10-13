@@ -1,0 +1,146 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing:  border-box;
+}
+
+body{
+    background-image: url(https://images.unsplash.com/photo-1554034483-04fda0d3507b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80);
+    background-repeat: no-repeat;
+    background-size: cover;
+	font-family: sens-serif;
+}
+h1{
+	margin-top: 80px;
+	text-align: center;
+	text-align: center;
+	color: #0000A0;
+	font-size: 50px;
+}
+.login{
+	margin-top: 8%;
+	height: 50%;
+	width: 100%;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+}
+
+.form{
+	position: relative;
+	width: 100%;
+	max-width: 380px;
+	padding:  80px 40px 40px ;
+	background: rgba(0,0,0,0.65);
+	border-radius: 10px;
+	color: #FFFFFF;
+	box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+}
+
+.form img{
+	position: absolute;
+	top: -50px;
+	left: calc(50% - 50px);
+	width: 100px;
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: 50%;
+}
+
+.form h2{
+	text-align: center;
+	letter-spacing: 1px;
+	margin-bottom: 30px;
+	color: #FF652F;
+}
+
+.form .input-group{
+	position: relative;
+}
+
+.form .input-group input {
+	width: 100%;
+	padding: 10px 0;
+	font-size: 16px;
+	letter-spacing: 1px;
+	margin-bottom: 30px;
+	border: none;
+	border-bottom: 1px solid #FFF;
+	outline: none;
+	background-color: transparent;
+	color: inherit;
+}
+
+.form .input-group label{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 10px 0;
+	font-size: 16px;
+	cursor: text;
+}
+
+.form .input-group input:focus + label,
+.form .input-group input:valid + label{
+	transform: translateY(-18px);
+	color: #FF652F;
+	font-size: 13px;
+}
+.pass{
+	position: absolute;
+	left: 60px;
+}
+.showPwd{
+	position: absolute;
+	left: 40px;
+}
+.submit-btn{
+	display:  block;
+	margin-top: 20px;
+	margin-left: auto;
+	border: none;
+	outline: none;
+	background: #FF652F;
+	font-size: 16px;
+	letter-spacing: 1px;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.submit-btn:hover{
+	background-color: #00FF00;
+}
+
+.form .register{
+	text-align: left;
+	margin-top: 10px;
+}
+
+.reg:link, .reg:visited {
+	color: #FFFF00;
+}
+.reg:hover{
+	color: #00FF00;
+}
+
+.alert{
+    margin: 20px 40% 0 40%;
+    padding: 10px;
+	color: #FF652F;
+	background-color: rgba(0,0,0,0.65);
+	font-size: 20px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.alert.success {
+  background-color: rgba(0,0,0,0.65);
+  color: #00FF00;
+}
+
+.alert.error {
+  background-color: rgba(255,0,0,0.75);
+  color: black;
+}
+

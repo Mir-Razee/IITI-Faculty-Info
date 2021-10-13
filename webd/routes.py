@@ -1,17 +1,12 @@
-from sqlalchemy import create_engine
-
-from sqlalchemy.testing import db
-from sqlalchemy.orm import scoped_session, sessionmaker
 from passlib.hash import sha256_crypt
-import sys
-
-from webd import app
+from webd import app, db
 from flask import redirect, url_for, session, render_template, request, flash
 from webd import oauth
 
 @app.route("/")
 def home():
     return render_template('home.html')
+
 
 @app.route('/login')
 def login():
@@ -30,13 +25,22 @@ def authorize():
     session.permanent = True
     return redirect('/form')
 
+
 @app.route('/form')
 def form():
-    user=dict(session).get('profile',None);
-    if user:
-        return render_template('relocate.html')
+    user = dict(session).get('profile', None);
+    email = user.get("email")
+    table_data = db.execute("SELECT email FROM faculty WHERE email =:email", {"email": email}).fetchone()
+    if email == "cse200001054@iiti.ac.in":
+        return render_template('faculty_form.html',user=user)
+    elif table_data:
+        return render_template('admin_form.html',user=user)
     else:
-        return "Please Login as admin"
+        return "Please go back and Login as admin or faculty"
+
+@app.route('/Choices')
+def QChoice():
+    return render_template('qchoice.html')
 
 @app.route('/logout')
 def logout():
@@ -45,37 +49,20 @@ def logout():
     return redirect('/')
 
 
-
-engine = create_engine("mysql://root:Hosamani29m$@localhost/lab5", echo=True)
-
-#Check connection
-try:
-    conn = engine.connect()
-except Exception as e:
-    print('Connection Failed\nError Details:', e)
-    sys.exit(1)
-conn.close()
-
-db = scoped_session(sessionmaker(bind=engine))
-log = False
-
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
-    print(log)
     if request.method == "POST":
         email = request.form.get("email")
         name = request.form.get("name")
         dept = request.form.get("dept")
-        pwd = request.form.get("pwd")
-        secure_password = sha256_crypt.encrypt(str(pwd))
-        print(name, email, dept, pwd)
+        print(name, email, dept)
 
         table_data = db.execute("SELECT email FROM faculty WHERE email =:email",
         {"email":email}).fetchone()
 
         if table_data == None:
-            db.execute("INSERT INTO faculty(email, facultyname, dept, password) VALUES(:email, :facultyname, :dept, :password)",
-            {"email":email,"facultyname":name, "dept": dept, "password":secure_password})
+            db.execute("INSERT INTO faculty(email, facultyname, dept) VALUES(:email, :facultyname, :dept)",
+            {"email":email,"facultyname":name, "dept": dept})
             db.commit()
             flash("Faculty Registered Successfully", "success")
             return redirect(url_for("admin"))
@@ -87,34 +74,38 @@ def admin():
     return render_template("admin_form.html")
 
 @app.route("/faculty", methods=["GET", "POST"])
-def faculty():
+def faculty(session=session):
     if request.method == "POST":
         email = request.form.get("email")
-        pwd = request.form.get("pwd")
 
         table_data = db.execute("SELECT email FROM faculty WHERE email =:email",
                                 {"email": email}).fetchone()
-        password_data = db.execute("SELECT password FROM faculty WHERE email =:email",
-                                   {"email": email}).fetchone()
 
-        if table_data is None:
-            flash("Faculty does not exist!", "error")
-            return render_template("faculty_form.html")
-        else:
-            for pass_data in password_data:
-                if sha256_crypt.verify(pwd, pass_data):
-                    session = True
-                    info = db.execute("SELECT * FROM faculty WHERE email =:email",
-                                            {"email": email}).fetchone()
-                    print(info[1], type(info))
-                    return render_template("faculty_form.html", email=info[0], name=info[1], dept=info[2])
-                else:
-                    flash("Incorrect Password", "error")
-                    return render_template("faculty_form.html")
+    user = dict(session).get('profile', None);
+    return render_template("faculty_form.html", user=user)
 
-    return render_template("faculty_form.html")
+@app.route("/data1",methods=["GET","POST"])
+def Data1():
+    return render_template("data.html",s=False)
 
+@app.route("/data2", methods=["GET", "POST"])
+def Data2():
+    dept = request.form['dept']
+    q1 = db.execute("SELECT facultyname FROM faculty WHERE dept =:dept",
+                    {"dept": dept}).fetchall()
+    size =(len(q1))
+    return render_template("data.html",s=True,dept=dept,q1=q1,size=size)
 
-
-
+@app.route("/info", methods=["GET","POST"])
+def qwery():
+    Department = request.form['dept2']
+    Faculty = request.form['fac']
+    y1 = request.form['from_year']
+    y2 = request.form['to_year']
+    C_ID = db.execute("SELECT Course_ID FROM courses WHERE Dept =:Dept",
+                            {"Dept": Department}).fetchall()
+    Q = db.execute("SELECT facemail FROM relation WHERE course_ID =:course_ID",
+                            {"course_ID": C_ID}).fetchall()
+    print(C_ID[0][0],Q,Faculty,y1,y2,Department)
+    return render_template("output.html", email = Q, fname=Faculty, y1=y1,y2=y2,cid=C_ID)
 
