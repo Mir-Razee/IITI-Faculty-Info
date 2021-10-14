@@ -10,6 +10,7 @@ Course Details
 {% block content %}
 <head>
 	<meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
 	<title>Register Course</title>
 </head>
 <body>
@@ -19,22 +20,150 @@ Course Details
 	<p>Name: {{user.get('name')}}</p>
 </div>
 <div class="w3-container w3-content w3-padding-64 " style="max-width:800px">
-		<form method="POST" class="form-register">
+	<form action="" method="post" id="course_reg" name="course_reg">
+        <h2> Register Course </h2>
 
-					<h2 class="w3-medium ">Course</h2>
-					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="course" id="course" required>
-					<br><br><br>
-					<h2 class="w3-medium ">Year</h2>
-					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="year" id="year" required>
-					<br><br><br>
-					<h2 class="w3-medium ">Room No.</h2>
-					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="room_no" id="room_no" required>
-					<br><br><br>
-					<h2 class="w3-medium ">Number of classes</h2>
-					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="classes" id="classes" required>
-			<br><br><br>
-			<input type ="submit" value="Register" class="w3-bar-item w3-button w3-padding-medium btn w3-green btn-secondary">
-		</form>
+        <div class="form-floating">
+            <input type="text" class="form-control" placeholder="Course_Name" name="course_name">
+            <label for="course_name">Course Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" placeholder="Course_ID" name="course_id">
+            <label for="course_id">Course ID</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" placeholder="Room_No" name="room_no" id="day">
+            <label for="room_no">Room Number</label>
+        </div>
+        <div class="form-floating">
+            <input type="number" min="1" max="5" class="form-control" placeholder="0" value="" name="no_of_classes" id="no_of_classes" onchange="genDays()">
+            <label for="no_of_classes">Number of classes per week</label>
+        </div>
+
+        <div  id="dummy" name="dummy">
+
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-warning">Submit</button>
+        </div>
+<!--        <script src="{{ url_for('static', filename='JS/timeslots.js') }}"></script>-->
+    </form>
+    <script>
+        function genDays(){
+    var no =document.getElementsByName('no_of_classes')[0].value;
+    var container=document.getElementsByName('dummy')[0];
+    while(container.firstChild){
+        container.removeChild(container.firstChild);
+    }
+    for(var i=0;i<no;i++){
+        var rowdiv = document.createElement("div");
+        rowdiv.className="row g-3";
+        rowdiv.id="beside";
+
+        var coldiv1 = document.createElement("div");
+        coldiv1.className="col";
+        var formdiv1 = document.createElement("div");
+        formdiv1.className="form-floating";
+        var day_select = document.createElement("select");
+        day_select.name= `day_select_${i+1}`;
+        day_select.className="form-select";
+        day_select.id="day";
+        var label1 = document.createElement("label");
+        label1.for=`day_select_${i+1}`;
+        label1.textContent=`Class ${i+1} Day`;
+        var option=document.createElement("option");
+        option.selected=true;
+        option.text="Select Day";
+        day_select.appendChild(option);
+
+        const week=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        for(var j=0;j<week.length;j++){
+            var option=document.createElement("option");
+            option.value=`${week[j]}`;
+            option.text=`${week[j]}`;
+            day_select.appendChild(option);
+        }
+
+        formdiv1.appendChild(day_select);
+        formdiv1.appendChild(label1);
+        coldiv1.appendChild(formdiv1);
+        var coldiv2 = document.createElement("div");
+        coldiv2.className="col";
+        var formdiv2 = document.createElement("div");
+        formdiv2.className="form-floating";
+        var time_select = document.createElement("select");
+        time_select.name= `time_select_${i+1}`;
+        time_select.className="form-select";
+        var label2 = document.createElement("label");
+        label2.for=`time_select_${i+1}`;
+        label2.textContent=`Class ${i+1} Time`;
+        var option=document.createElement("option");
+        option.selected=true;
+        option.text="Select Time";
+        time_select.appendChild(option);
+
+        formdiv2.appendChild(time_select);
+        formdiv2.appendChild(label2);
+        coldiv2.appendChild(formdiv2);
+
+        rowdiv.appendChild(coldiv1);
+        rowdiv.appendChild(coldiv2);
+        container.appendChild(rowdiv);
+    }
+}
+$(document).on("change", "#day", function(){
+    var day=this.value;
+    var str=this.name;
+    str=str.replace('day_select_','');
+    var time_str="time_select_";
+    time_str=time_str.concat(str);
+    var container=document.getElementsByName(time_str)[0];
+    while(container.firstChild){
+        container.removeChild(container.firstChild);
+    }
+    lmao(day);
+    console.log(day);
+    function lmao(day){
+        $.ajax({
+            type: 'GET',
+            url: '/gettime',
+            data:{ day: day},
+            success: function(data) {
+                obj=JSON.parse(data);
+                for(i=0;i<obj.length;i++){
+                    var option=document.createElement("option");
+                    option.value=obj[i];
+                    option.text=obj[i];
+                    container.appendChild(option);
+                }
+            }
+        });
+    }
+
+});
+    </script>
 </div>
 </body>
 {% endblock %}
+
+<!--		<form method="POST" class="form-register">-->
+
+<!--					<h2 class="w3-medium ">Course ID</h2>-->
+<!--					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="cid" id="cid" required>-->
+<!--					<br><br><br>-->
+<!--					<h2 class="w3-medium ">Course ID</h2>-->
+<!--					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="cname" id="cname" required>-->
+<!--					<br><br><br>-->
+<!--					<h2 class="w3-medium ">Year</h2>-->
+<!--					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="year" id="year" required>-->
+<!--					<br><br><br>-->
+<!--					<h2 class="w3-medium ">Room No.</h2>-->
+<!--					<input type="textbox" class="w3-input w3-border w3-half", type="password", placeholder = "Enter Here" name="room_no" id="room_no" required>-->
+<!--					<br><br><br>-->
+<!--					<h2 class="w3-medium ">Number of classes</h2>-->
+<!--					<input type="textbox" class="w3-input w3-border w3-half", type="int", placeholder = "Enter Here" name="classes" id="classes" required>-->
+<!--					<script src="{{ url_for('static', filename='JS/timeslots.js') }}"></script>-->
+<!--			<br><br><br>-->
+<!--			<input type ="submit" value="Register" class="w3-bar-item w3-button w3-padding-medium btn w3-green btn-secondary">-->
+<!--		</form>-->

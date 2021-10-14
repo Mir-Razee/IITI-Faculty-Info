@@ -109,3 +109,39 @@ def qwery():
     print(C_ID[0][0],Q,Faculty,y1,y2,Department)
     return render_template("output.html", email = Q, fname=Faculty, y1=y1,y2=y2,cid=C_ID)
 
+# @app.route("/course", methods=["GET","POST"])
+# def courses():
+#     C_ID = request.form.get("cid")
+#     C_name = request.form.get("name")
+#     year = request.form.get("year")
+#     room_no = request.form.get("room_no")
+
+import json
+@app.route('/gettime', methods=['GET','POST'])
+def gettime():
+    if request.method=='GET':
+        day= request.args.get('day')
+        timeslots=db.execute("select time from timeslots where(day=:day and not exists ( select Slot_Timing from relation where slot_ID=Slot_Timing));", {"day":day}).fetchall()
+        data=[]
+        for row in timeslots:
+            data.append(list(row))
+        print(data)
+        return json.dumps(data)
+    return "Nothing"
+
+
+@app.route("/data6",methods=["GET","POST"])
+def Data6():
+    return render_template("data6.html")
+
+@app.route('/getfac', methods=['GET','POST'])
+def getfac():
+    if request.method=='GET':
+        dept= request.args.get('dept')
+        faculty=db.execute("select facultyname from faculty where dept = :dept;", {"dept":dept}).fetchall()
+        data=[]
+        for row in faculty:
+            data.append(list(row))
+        print(data)
+        return json.dumps(data)
+    return "Nothing"

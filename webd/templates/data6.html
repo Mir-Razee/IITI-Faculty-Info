@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block nav %}
+<ul class="navbar-nav">
+  <li class="nav-item">
+  <form action="/login">
+      <button class="btn btn-light" type="submit">Sign in(for admin only)</button>
+  </form>
+  </li>
+</ul>
+{% endblock %}
+
+
+{% block content %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
+<div>
+  <div>
+    <p class="heading">
+      Welcome to IIT Indore's Information website! <br>
+      Here, you will be able to retrieve Information about the Courses, Faculty, etc of IIT Indore.
+    </p>
+  </div>
+  <form>
+    <div class="form">
+      <div class="form-floating">
+        <select class="form-select" name="dept" id="dept">
+          <option selected>Select a Department</option>
+          <option value="CSE">CSE</option>
+          <option value="ME">ME</option>
+          <option value="EE">EE</option>
+          <option value="CE">CE</option>
+          <option value="MEMS">MEMS</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="HSC">HSC</option>
+          <option value="BSBE">BSBE</option>
+          <option value="Physics">Physics</option>
+          <option value="Astronomy">Astronomy</option>
+        </select>
+        <label for="dept">Department</label>
+      </div>
+
+      <div class="form-floating">
+        <select class="form-select" name="fac">
+          <option selected>Select a Faculty</option>
+        </select>
+        <label for="fac">Faculty</label>
+      </div>
+<div class="row g-3" id="beside">
+        <div class="col">
+          <div class="form-floating">
+            <select name="from_year" class="form-select" onchange="getYear()">
+              <option selected>From</option>
+              <option value="2011">2011</option>
+              <option value="2012">2012</option>
+              <option value="2013">2013</option>
+              <option value="2014">2014</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+            </select>
+            <label for="from_year">Select Initial Year</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating">
+            <select name="to_year" class="form-select">
+              <option selected>To</option>
+            </select>
+            <label for="to_year">Select Final Year</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3" id="beside">
+        <div class="col">
+          <div class="form-floating">
+            <select name="from_sem" class="form-select">
+              <option selected>From</option>
+              <option value="autumn">Autumn</option>
+              <option value="spring">Spring</option>
+            </select>
+            <label for="to_sem">Select Initial Semester</label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-floating">
+            <select name="to_sem" class="form-select">
+              <option selected>To</option>
+              <option value="autumn">Autumn</option>
+              <option value="spring">Spring</option>
+            </select>
+            <label for="to_sem">Select Final Semester</label>
+          </div>
+    </div></div>
+
+      <div>
+        <button type="submit" class="btn btn-warning">Submit</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  $(document).on("change", "#dept", function(){
+        var dept=this.value;
+        var container=document.getElementsByName("fac")[0];
+        while(container.firstChild){
+            container.removeChild(container.firstChild);
+        }
+        lmao(dept);
+        function lmao(day){
+            $.ajax({
+                type: 'GET',
+                url: '/getfac',
+                data:{ dept: dept},
+                success: function(data) {
+                    obj=JSON.parse(data);
+                    for(i=0;i<obj.length;i++){
+                        var option=document.createElement("option");
+                        option.value=obj[i];
+                        option.text=obj[i];
+                        container.appendChild(option);
+                    }
+                }
+            });
+        }
+    });
+
+
+
+
+
+  function getYear(){
+    var year=document.getElementsByName('from_year')[0].value;
+    var to=document.getElementsByName('to_year')[0];
+    while(to.firstChild){
+            to.removeChild(to.firstChild);
+        }
+    var selected_option=document.createElement("option");
+    selected_option.selected=true;
+    selected_option.text="To";
+    to.appendChild(selected_option);
+    for(var i=year;i<=2021;i++){
+      var option=document.createElement("option");
+      option.value=i;
+      option.text=`${i}`;
+      to.appendChild(option);
+    }
+  }
+</script>
+
+{% endblock %}
