@@ -1,5 +1,4 @@
-
-function genDays(){
+        function genDays(){
     var no =document.getElementsByName('no_of_classes')[0].value;
     var container=document.getElementsByName('dummy')[0];
     while(container.firstChild){
@@ -72,6 +71,7 @@ $(document).on("change", "#day", function(){
         container.removeChild(container.firstChild);
     }
     lmao(day);
+    console.log(day);
     function lmao(day){
         $.ajax({
             type: 'GET',
