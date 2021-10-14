@@ -1,5 +1,9 @@
         function genDays(){
     var no =document.getElementsByName('no_of_classes')[0].value;
+    if (no<1 || no>5){
+        no=0
+        alert("Enter number between 1 to 5")
+    }
     var container=document.getElementsByName('dummy')[0];
     while(container.firstChild){
         container.removeChild(container.firstChild);
