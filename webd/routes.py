@@ -28,7 +28,7 @@ def authorize():
 
 @app.route('/form')
 def form():
-    user = dict(session).get('profile', None);
+    user = dict(session).get('profile', None)
     email = user.get("email")
     table_data = db.execute("SELECT email FROM faculty WHERE email =:email", {"email": email}).fetchone()
     if email == "cse200001054@iiti.ac.in":
@@ -73,16 +73,16 @@ def admin():
 
     return render_template("admin_form.html")
 
-@app.route("/faculty", methods=["GET", "POST"])
-def faculty(session=session):
-    if request.method == "POST":
-        email = request.form.get("email")
-
-        table_data = db.execute("SELECT email FROM faculty WHERE email =:email",
-                                {"email": email}).fetchone()
-
-    user = dict(session).get('profile', None)
-    return render_template("faculty_form.html", user=user)
+# @app.route("/faculty", methods=["GET", "POST"])
+# def faculty(session=session):
+#     if request.method == "POST":
+#         email = request.form.get("email")
+#
+#         table_data = db.execute("SELECT email FROM faculty WHERE email =:email",
+#                                 {"email": email}).fetchone()
+#
+#     user = dict(session).get('profile', None)
+#     return render_template("faculty_form.html", user=user)
 
 @app.route("/data1",methods=["GET","POST"])
 def Data1():
@@ -145,3 +145,48 @@ def getfac():
         print(data)
         return json.dumps(data)
     return "Nothing"
+
+@app.route("/faculty", methods=["GET", "POST"])
+def faculty(session=session):
+    user = dict(session).get('profile', None)
+    if request.method == "POST":
+        email = user.get("email")
+        dept = db.execute("SELECT dept from faculty where email= :email", {"email": email}).fetchone()
+        cname = request.form.get("cname")
+        cid = request.form.get("cid")
+        stu = request.form.get("stu")
+        room_no = request.form.get("room_no")
+        year = request.form.get("year")
+        sem = request.form.get("sem")
+        no = request.form.get("no_of_classes")
+        year = int(year)
+        no = int(no)
+        stu = int(stu)
+        z = db.execute("Select * from courses where Course_ID= :Course_ID", {"Course_ID": cid})
+        y = db.execute("Select * from relation where facemail= :facemail and Course_ID= :Course_ID and year= :year and Semester= :Semester",
+                       {"facemail": email, "Course_ID": cid, "year": year, "Semester": sem}).fetchone()
+        if y is not None:
+            return "Course Already Registered by faculty for given year and semester"
+        if z is None:
+            db.execute("INSERT INTO courses(Course_ID, Course_name, Dept) VALUES(:Course_ID, :Course_name, :Dept)",
+                   {"Course_ID": cid, "Course_name": cname, "Dept": dept[0]})
+            db.commit()
+
+        print(cname, cid, room_no, year, sem, no)
+        for i in range(no):
+            d = "day_select_" + str(i+1)
+            t = "time_select_" + str(i+1)
+            day = request.form.get(d)
+            time = request.form.get(t)
+            slot_ids = db.execute("SELECT slot_id FROM timeslots WHERE day= :day AND time= :time",
+                           {"day":day, "time":time}).fetchone()
+            slot_id = slot_ids[0]
+            print(type(slot_id), slot_id)
+
+            db.execute("INSERT INTO relation(facemail, course_ID, no_of_students, room_no, year, Semester, Slot_Timing) VALUES(:facemail, :course_ID, :no_of_students, :room_no, :year, :Semester, :Slot_Timing)",
+                       {"facemail": email, "course_ID": cid, "no_of_students": stu, "room_no": room_no, "year": year, "Semester": sem, "Slot_Timing": slot_id})
+            db.commit()
+        return "success"
+
+
+    return render_template("faculty_form.html", user=user)
