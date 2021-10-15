@@ -162,9 +162,10 @@ def faculty(session=session):
         year = int(year)
         no = int(no)
         stu = int(stu)
-        z = db.execute("Select * from courses where Course_ID= :Course_ID", {"Course_ID": cid})
+        z = db.execute("Select * from courses where Course_ID= :Course_ID", {"Course_ID": cid}).fetchone()
         y = db.execute("Select * from relation where facemail= :facemail and Course_ID= :Course_ID and year= :year and Semester= :Semester",
                        {"facemail": email, "Course_ID": cid, "year": year, "Semester": sem}).fetchone()
+        print(y, z)
         if y is not None:
             return "Course Already Registered by faculty for given year and semester"
         if z is None:
@@ -182,10 +183,13 @@ def faculty(session=session):
                            {"day":day, "time":time}).fetchone()
             slot_id = slot_ids[0]
             print(type(slot_id), slot_id)
-
-            db.execute("INSERT INTO relation(facemail, course_ID, no_of_students, room_no, year, Semester, Slot_Timing) VALUES(:facemail, :course_ID, :no_of_students, :room_no, :year, :Semester, :Slot_Timing)",
+            check = db.execute("Select * from relation where facemail= :facemail and Course_ID= :Course_ID and year= :year and Semester= :Semester and Slot_Timing= :Slot_Timing",
+                       {"facemail": email, "Course_ID": cid, "year": year, "Semester": sem, "Slot_Timing": slot_id}).fetchone()
+            if check is None:
+                db.execute("INSERT INTO relation(facemail, course_ID, no_of_students, room_no, year, Semester, Slot_Timing) VALUES(:facemail, :course_ID, :no_of_students, :room_no, :year, :Semester, :Slot_Timing)",
                        {"facemail": email, "course_ID": cid, "no_of_students": stu, "room_no": room_no, "year": year, "Semester": sem, "Slot_Timing": slot_id})
-            db.commit()
+                db.commit()
+
         return "success"
 
 
