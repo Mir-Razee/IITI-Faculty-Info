@@ -116,18 +116,19 @@ def qwery():
 #     year = request.form.get("year")
 #     room_no = request.form.get("room_no")
 
-import json
-@app.route('/gettime', methods=['GET','POST'])
-def gettime():
-    if request.method=='GET':
-        day= request.args.get('day')
-        timeslots=db.execute("select time from timeslots where(day=:day and not exists ( select Slot_Timing from relation where slot_ID=Slot_Timing));", {"day":day}).fetchall()
-        data=[]
-        for row in timeslots:
-            data.append(list(row))
-        print(data)
-        return json.dumps(data)
-    return "Nothing"
+# import json
+# @app.route('/gettime', methods=['GET','POST'])
+# def gettime():
+#     if request.method=='GET':
+#         day= request.args.get('day')
+#
+#         timeslots=db.execute("select time from timeslots where(day=:day and not exists ( select Slot_Timing from relation where slot_ID=Slot_Timing));", {"day":day}).fetchall()
+#         data=[]
+#         for row in timeslots:
+#             data.append(list(row))
+#         print(data)
+#         return json.dumps(data)
+#     return "Nothing"
 
 
 @app.route("/data6",methods=["GET","POST"])
@@ -144,6 +145,38 @@ def getfac():
             data.append(list(row))
         print(data)
         return json.dumps(data)
+    return "Nothing"
+
+import json
+@app.route('/gettime', methods=['GET','POST'])
+def gettime():
+    if request.method=='GET':
+        day= request.args.get('day')
+        sem= request.args.get('sem')
+        year= int(request.args.get('year'))
+
+        print(day, sem, year, type(year))
+        j = db.execute("SELECT Slot_Timing from relation where Semester= :Semester and year= :year", {"Semester": sem, "year": year}).fetchall()
+        h = db.execute("SELECT Slot_ID from timeslots where day= :day", {"day": day}).fetchall()
+        k = list(set(h) - set(j))
+        l = []
+        for i in range(len(k)):
+            k[i] = k[i][0]
+        k.sort()
+        # print(j)
+        # print(h)
+        # print(k)
+        data2 = []
+        for i in k:
+            l = db.execute("SELECT time from timeslots where slot_ID= :slot_ID", {"slot_ID": i}).fetchone()
+            data2.append(list(l))
+        # timeslots=db.execute("select time from timeslots where(day=:day and not exists ( select Slot_Timing from relation where slot_ID=Slot_Timing));", {"day":day}).fetchall()
+        # data=[]
+        # print(data2)
+        # for row in timeslots:
+        #     data.append(list(row))
+        # print(data)
+        return json.dumps(data2)
     return "Nothing"
 
 @app.route("/faculty", methods=["GET", "POST"])
@@ -194,3 +227,4 @@ def faculty(session=session):
 
 
     return render_template("faculty_form.html", user=user)
+

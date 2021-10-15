@@ -1,4 +1,4 @@
-        function genDays(){
+function genDays(){
     var no =document.getElementsByName('no_of_classes')[0].value;
     if (no<1 || no>5){
         no=0
@@ -67,6 +67,8 @@
 $(document).on("change", "#day", function(){
     var day=this.value;
     var str=this.name;
+    var year = document.getElementsByName("year")[0].value;
+    var sem  = document.getElementsByName("sem")[0].value;
     str=str.replace('day_select_','');
     var time_str="time_select_";
     time_str=time_str.concat(str);
@@ -74,13 +76,13 @@ $(document).on("change", "#day", function(){
     while(container.firstChild){
         container.removeChild(container.firstChild);
     }
-    lmao(day);
+    lmao(day, year, sem);
     console.log(day);
-    function lmao(day){
+    function lmao(day, year, sem){
         $.ajax({
             type: 'GET',
             url: '/gettime',
-            data:{ day: day},
+            data:{ day: day, year: year, sem : sem},
             success: function(data) {
                 obj=JSON.parse(data);
                 for(i=0;i<obj.length;i++){
