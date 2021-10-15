@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block nav %}
+<ul class="navbar-nav">
+  <li class="nav-item">
+  <form action="/login">
+          <button class="btn w3-green btn-secondary " type="submit">Sign in</button>
+  </form>
+  </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+    <body>
+        <form method="POST"> <!-- Sends POST request to flask server -->
+            {{ recaptcha }} <!-- Refer to 'recaptcha' variable in main.py -->
+            <input type="submit" value="Submit">
+        </form>
+        <p>{{ message }}</p> <!-- Message to tell user whether or not they have filled out ReCaptcha -->
+    </body>
+</html>
+
+{% endblock %}

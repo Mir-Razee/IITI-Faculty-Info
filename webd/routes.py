@@ -2,6 +2,18 @@ from passlib.hash import sha256_crypt
 from webd import app, db
 from flask import redirect, url_for, session, render_template, request, flash
 from webd import oauth
+from flask_recaptcha import ReCaptcha # Import ReCaptcha object
+
+app.config.update(dict(
+    RECAPTCHA_ENABLED=True,
+    RECAPTCHA_SITE_KEY="6LdbqdEcAAAAAC3ZVzmeVq_DKPgl1B5SGrQ3uBpR",
+    RECAPTCHA_SECRET_KEY="6LdbqdEcAAAAAIfvIDWi9uiC6Xrkm23rrHE0PXHA",
+
+))
+
+recaptcha = ReCaptcha(app=app)
+recaptcha = ReCaptcha()
+recaptcha.init_app(app)
 
 @app.route("/")
 def home():
@@ -227,4 +239,15 @@ def faculty(session=session):
 
 
     return render_template("faculty_form.html", user=user)
+
+@app.route('/captcha', methods=['GET', 'POST'])
+def captcha():
+    if request.method == 'POST': # Check to see if flask.request.method is POST
+        if recaptcha.verify(): # Use verify() method to see if ReCaptcha is filled out
+            return render_template("qchoice.html")
+        else:
+            flash("Captcha Failed! Please Retry")
+            return render_template("home.html")
+    return render_template('captcha.html')
+
 

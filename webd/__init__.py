@@ -14,8 +14,9 @@ load_dotenv()
 # Session config
 app.secret_key = 'super-secret-key'
 app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
-log=False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
+app.config['RECAPTCHA_SITE_KEY'] = '6LdcB9IcAAAAAOiPYSOCtboOnItc5uylKFG-Kr5u' # <-- Add your site key
+app.config['RECAPTCHA_SECRET_KEY'] = '6LdcB9IcAAAAAE9Z22KQInYYIsK5sDWdmuDoPx3P' # <-- Add your secret key
 
 # oAuth Setup
 oauth = OAuth(app)
@@ -45,8 +46,6 @@ conn.close()
 
 db = scoped_session(sessionmaker(bind=engine))
 
-
-log=False
 
 from webd import routes
 

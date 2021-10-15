@@ -29,14 +29,55 @@ Home
     <p class="w3-opacity"><i>Where Learning Begins</i></p>
   </div>
   <div class="w3-container w3-content w3-center w3-padding-64">
-    <h4>View Course information</h4>
-      <center>
-        <a class="btn w3-black btn-lg btn-secondary" href="{{ url_for('QChoice')}}">GET STARTED</a>
-      </center>
+    <form action="{{url_for('captcha')}}" method="POST">
+
+<!--            <h4>View Course information</h4>-->
+
+            <center>
+                <h4>View Course information</h4>
+                {{ recaptcha }}
+                <input type="submit" value="GET STARTED" class="btn w3-black btn-lg btn-secondary" id="btn"><br>
+                <!--        <a class="btn w3-black btn-lg btn-secondary" href="{{ url_for('QChoice')}}">GET STARTED</a>-->
+            </center>
+
+        </form>
   </div>
   </div>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert {{ category }}"> {{ message }} </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
+<style>
+
+    .#btn {
+        margin-top: 20px;
+    }
+
+  .alert{
+    margin: 20px 40% 0 40%;
+    padding: 10px;
+	color: #FF652F;
+	background-color: rgba(0,0,0,0.65);
+	font-size: 20px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.alert.success {
+  background-color: rgba(0,0,0,0.65);
+  color: #00FF00;
+}
+
+.alert.error {
+  background-color: rgba(255,0,0,0.75);
+  color: black;
+}
+</style>
 
 <footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
 
