@@ -4,6 +4,7 @@ Course Details
 {% endblock %}
 
 {% block nav %}
+        <a class="w3-bar-item w3-button w3-padding-medium btn w3-red btn-secondary" href="{{ url_for('edit') }}">Edit Course</a>
 		<a class="w3-bar-item w3-button w3-padding-medium btn w3-red btn-secondary" href="{{ url_for('logout') }}">Logout</a>
 {% endblock %}
 
@@ -14,14 +15,14 @@ Course Details
 	<title>Register Course</title>
 </head>
 <body>
-<h1> Register Course </h1>
+<h1 align="center"> Register Course </h1>
 <div class="parent" align="center">
-	<p>Email : {{user.get('email')}}</p>
-	<p>Name: {{user.get('name')}}</p>
+    <b> <p>Email : {{user.get('email')}}</p>
+        <p>Name: {{user.get('name')}}</p>
+        <p>Department: {{dept}}</p> </b>
 </div>
 <div class="w3-container w3-content w3-padding-64 " style="max-width:800px">
 	<form action="/faculty" method="post" id="course_reg" name="course_reg">
-        <h2> Register Course </h2>
 
         <div class="form-floating">
             <input type="text" class="form-control" placeholder="Course_Name" name="cname" id="cname">
@@ -74,10 +75,16 @@ Course Details
         <div>
             <button type="submit" class="btn btn-warning">Submit</button>
         </div>
-<!--        -->
+
     </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}"> {{ message }} </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <script src="{{ url_for('static', filename='JS/timeslots.js') }}"></script>
 </div>
 </body>
 {% endblock %}
-

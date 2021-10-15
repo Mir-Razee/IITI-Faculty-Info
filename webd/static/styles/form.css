@@ -5,3 +5,23 @@
 #beside{
     padding: 0px !important;
 }
+
+.alert{
+    margin: 20px 40% 0 40%;
+    padding: 10px;
+	color: #FF652F;
+	background-color: rgba(0,0,0,0.65);
+	font-size: 20px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.alert.success {
+  background-color: rgba(0,0,0,0.65);
+  color: #00FF00;
+}
+
+.alert.error {
+  background-color: rgba(255,0,0,0.75);
+  color: black;
+}

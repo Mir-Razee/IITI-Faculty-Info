@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}
+Course Details
+{% endblock %}
+
+{% block nav %}
+        <a class="w3-bar-item w3-button w3-padding-medium btn w3-red btn-secondary" href="{{ url_for('form') }}">Register Course</a>
+		<a class="w3-bar-item w3-button w3-padding-medium btn w3-red btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+
+{% endblock %}
+
+{% block content %}
+<head>
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/form.css') }}">
+	<title>Edit Course</title>
+</head>
+<body>
+<h1 align="center"> Edit Course </h1>
+<div class="parent" align="center">
+	<b> <p>Email : {{user.get('email')}}</p>
+        <p>Name: {{user.get('name')}}</p>
+        <p>Department: {{dept}}</p> </b>
+</div>
+<div class="w3-container w3-content w3-padding-64 " style="max-width:800px">
+	<form action="/edit" method="post" id="course_reg" name="course_reg">
+
+        <div class="form-floating">
+            <select class="form-select" name="cname_id" id="cname_id" >
+                {% for i in range(t_list|length) %}
+                    <option value = {{cid_list[i]}} >{{t_list[i]}} </option>
+                {% endfor %}
+            </select>
+            <label for="cname_id">Course Name and ID</label>
+        </div>
+        <div class="form-floating">
+            <input type="Integer" class="form-control" placeholder="No. of students" name="stu" id="stu">
+            <label for="stu">No. of students</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" placeholder="Room_No" name="room_no" id="room_no">
+            <label for="room_no">Room Number</label>
+        </div>
+        <div class="form-floating">
+            <select name="year" id="year" class="form-select" placeholder="Select Year">
+              <option value="2011">2011</option>
+              <option value="2012">2012</option>
+              <option value="2013">2013</option>
+              <option value="2014">2014</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+            </select>
+            <label for="year">Select Year</label>
+        </div>
+        <div class="form-floating">
+            <select name="sem" class="form-select" id="sem" placeholder="Select Semester">
+              <option value="autumn">Autumn</option>
+              <option value="spring">Spring</option>
+            </select>
+            <label for="sem">Select Semester</label>
+        </div>
+        <div class="form-floating">
+            <input type="number" min="1" max="5" class="form-control" placeholder="0" value="" name="no_of_classes" id="no_of_classes" onchange="genDays()">
+            <label for="no_of_classes">Number of classes per week</label>
+        </div>
+
+        <div  id="dummy" name="dummy">
+
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-warning">Submit</button>
+        </div>
+
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}"> {{ message }} </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <script src="{{ url_for('static', filename='JS/timeslots.js') }}"></script>
+</div>
+</body>
+{% endblock %}
+
