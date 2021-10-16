@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block nav %}
+<ul class="navbar-nav">
+  <li class="nav-item">
+  <form action="/login">
+      <button class="btn btn-light" type="submit">Sign in(for admin only)</button>
+  </form>
+  </li>
+</ul>
+{% endblock %}
+
+
+{% block content %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/home.css') }}">
+<div>
+  <div>
+    <p class="heading">
+      Welcome to IIT Indore's Information website! <br>
+      Here, you will be able to retrieve Information about the Courses, Faculty, etc of IIT Indore.
+    </p>
+  </div>
+  <form action="/info5" method="post">
+    <div class="form">
+
+<div class="row g-3" id="beside">
+        <div class="col">
+          <div class="form-floating">
+            <select name="year" class="form-select" onchange="getYear()">
+              <option selected>From</option>
+              <option value="2011">2011</option>
+              <option value="2012">2012</option>
+              <option value="2013">2013</option>
+              <option value="2014">2014</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+            </select>
+            <label for="from_year">Select Initial Year</label>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-floating">
+            <select name="sem" class="form-select">
+              <option selected>From</option>
+              <option value="autumn">Autumn</option>
+              <option value="spring">Spring</option>
+            </select>
+            <label for="to_sem">Select Initial Semester</label>
+          </div>
+      </div>
+</div>
+
+      <div>
+        <button type="submit" class="btn btn-warning">Submit</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script src="{{ url_for('static', filename='JS/auto_faculty.js') }}"></script>
+
+{% endblock %}

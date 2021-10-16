@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block nav %}
+
+{% endblock %}
+
+
+{% block content %}
+<style>
+    button{
+        width: 100%;
+    }
+</style>
+<body>
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" >
+    <h2 class="w3-wide">COURSE INFORMATION</h2>
+    <br>
+    </div>
+</div>
+
+<div class="w3-container w3-content w3-center w3-padding-16" style="max-width:800px">
+  <h3>COURSE IDs:</h3><br>
+  <table style="width:50%" class="w3-container w3-content w3-center w3-padding-16">
+  <tr>
+    <th>Faculty Name</th>
+    <th>Faculty Mail</th>
+  </tr>
+
+  {% for i in range(size) %}
+    <tr>
+      <td>{{fac[i][0]}}</td>
+      <td>{{fac[i][1]}}</td>
+    </tr>
+  {% endfor %}
+
+</table>
+</div>
+
+<div class="w3-container w3-padding-16" style="max-width:800px">
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+</div>
+
+
+</body>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+{% endblock %}

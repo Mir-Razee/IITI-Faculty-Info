@@ -57,6 +57,26 @@ def form():
 def QChoice():
     return render_template('qchoice.html')
 
+@app.route("/data1",methods=["GET","POST"])
+def Data1():
+    return render_template("data1.html")
+
+@app.route("/data2",methods=["GET","POST"])
+def Data2():
+    return render_template("data2.html")
+
+@app.route("/data3",methods=["GET","POST"])
+def Data3():
+    return render_template("data3.html")
+
+@app.route("/data4",methods=["GET","POST"])
+def Data4():
+    return render_template("data4.html")
+
+@app.route("/data5",methods=["GET","POST"])
+def Data5():
+    return render_template("data5.html")
+
 @app.route('/logout')
 def logout():
     for key in list(session.keys()):
@@ -99,30 +119,137 @@ def admin():
 #     user = dict(session).get('profile', None)
 #     return render_template("faculty_form.html", user=user)
 
-@app.route("/data1",methods=["GET","POST"])
-def Data1():
-    return render_template("data.html",s=False)
-
-@app.route("/data2", methods=["GET", "POST"])
-def Data2():
-    dept = request.form['dept']
-    q1 = db.execute("SELECT facultyname FROM faculty WHERE dept =:dept",
-                    {"dept": dept}).fetchall()
-    size =(len(q1))
-    return render_template("data.html",s=True,dept=dept,q1=q1,size=size)
-
 @app.route("/info", methods=["GET","POST"])
 def qwery():
-    Department = request.form['dept2']
+    y1=2011
+    y2=2021
+    Department = request.form['dept']
     Faculty = request.form['fac']
     y1 = request.form['from_year']
     y2 = request.form['to_year']
-    C_ID = db.execute("SELECT Course_ID FROM courses WHERE Dept =:Dept",
-                            {"Dept": Department}).fetchall()
-    Q = db.execute("SELECT facemail FROM relation WHERE course_ID =:course_ID",
-                            {"course_ID": C_ID}).fetchall()
-    print(C_ID[0][0],Q,Faculty,y1,y2,Department)
-    return render_template("output.html", email = Q, fname=Faculty, y1=y1,y2=y2,cid=C_ID)
+    FAC_MAIL = db.execute("SELECT email FROM faculty WHERE facultyname =:facultyname",
+                          {"facultyname": Faculty}).fetchone()
+    C_ID = db.execute("SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2",
+                            {"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
+
+    if len(C_ID) == 0:
+        return render_template("Err.html")
+
+
+    def my_function(x):
+        return list(dict.fromkeys(x))
+    C_ID = list(my_function(C_ID))
+    C_NAME = db.execute("SELECT Course_name FROM courses WHERE Course_ID = ANY (SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2);",{"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
+
+    print(C_ID[0],FAC_MAIL[0],C_NAME[0])
+    return render_template("output1_2.html",cid=C_ID,size=len(C_ID),cname=C_NAME)
+
+@app.route("/info2", methods=["GET","POST"])
+def qwery2():
+    y1=2011
+    y2=2021
+    Department = request.form['dept']
+    Faculty = request.form['fac']
+    FAC_MAIL = db.execute("SELECT email FROM faculty WHERE facultyname =:facultyname",
+                          {"facultyname": Faculty}).fetchone()
+    C_ID = db.execute("SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2",
+                            {"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
+    C_NAME = db.execute("SELECT Course_name FROM courses WHERE Course_ID = ANY (SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2);",{"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
+
+    if len(C_ID)==0 and len(C_NAME)==0:
+        return render_template("Err.html")
+
+    def my_function(x):
+        return list(dict.fromkeys(x))
+    C_ID = list(my_function(C_ID))
+    print(C_ID,FAC_MAIL[0])
+    return render_template("output1_2.html",cid=C_ID,size=len(C_ID),cname=C_NAME)
+
+@app.route("/info3", methods=["GET","POST"])
+def qwery3():
+    Department = request.form['dept']
+    y1 = request.form['from_year']
+    y2 = request.form['to_year']
+    C = db.execute("SELECT Course_ID,Course_name FROM courses WHERE( Dept =:Dept AND Course_ID = ANY (SELECT course_ID FROM relation WHERE year>=:y1 AND year<=:y2));",
+                            {"Dept":Department,"y1":y1,"y2":y2}).fetchall()
+    print(C,y1,y2)
+#    C_NAME = db.execute("SELECT Course_name FROM courses WHERE Course_ID = ANY (SELECT course_ID FROM relation WHERE year>=:y1 AND year<=:y2);",{"y1":y1,"y2":y2}).fetchall()
+
+    if len(C)==0:
+        return render_template("Err.html")
+
+    def my_function(x):
+        return list(dict.fromkeys(x))
+    C = list(my_function(C))
+
+    return render_template("output3.html",cid=C,size=len(C))
+
+@app.route("/info4", methods=["GET","POST"])
+def qwery4():
+    y1=2011
+    y2=2021
+    Department = request.form['dept']
+    C_ID = request.form['cou']
+
+    FAC_NAME = db.execute("SELECT facultyname,email FROM faculty WHERE email = ANY (SELECT facemail FROM relation WHERE course_ID =:course_ID );",{"course_ID":C_ID}).fetchall()
+
+    print(C_ID,FAC_NAME)
+    return render_template("output4.html",fac=FAC_NAME,size=len(FAC_NAME))
+
+@app.route("/info5", methods=["GET","POST"])
+def qwery5():
+    Year = request.form['year']
+    Sem = request.form['sem']
+
+    CID = db.execute("SELECT DISTINCT course_ID FROM relation WHERE year=:year AND Semester=:sem",{"year":Year,"sem":Sem}).fetchall()
+    for i in range(len(CID)):
+        CID[i] = CID[i][0]
+    col_dept=[]
+    col_cname=[]
+    col_cid = []
+    col_fmail = []
+    col_dept  = []
+    col_fname = []
+    for i in CID:
+        FMAIL = db.execute("SELECT DISTINCT facemail FROM relation WHERE course_ID= :course_ID",{"course_ID": i}).fetchall()
+        for x in FMAIL:
+            col_cid.append(i)
+            col_fmail.append(x[0])
+    for i in col_cid:
+        CNAME = db.execute("SELECT dept, Course_name FROM courses WHERE Course_ID= :Course_ID",{"Course_ID": i}).fetchone()
+        col_cname.append(CNAME[1])
+        col_dept.append(CNAME[0])
+    for i in col_fmail:
+        FNAME = db.execute("SELECT facultyname FROM faculty WHERE email= :email",
+                           {"email": i}).fetchone()
+        col_fname.append(FNAME[0])
+
+    col_room=[]
+    col_stu=[]
+    col_time=[]
+    for i in range(len(col_cid)):
+        dbc = db.execute("SELECT no_of_students, room_no from relation where course_ID=:course_ID and year=:year and Semester=:Semester and facemail=:facemail",
+                         {"course_ID": col_cid[i], "year": Year, "Semester": Sem, "facemail": col_fmail[i]}).fetchone()
+        col_stu.append(dbc[0])
+        col_room.append(dbc[1])
+
+    for i in range(len(col_cid)):
+        dbc = db.execute("SELECT Slot_Timing from relation where course_ID=:course_ID and year=:year and Semester=:Semester and facemail=:facemail",
+                         {"course_ID": col_cid[i], "year": Year, "Semester": Sem, "facemail": col_fmail[i]}).fetchall()
+        for j in range(len(dbc)):
+            dbc[j] = dbc[j][0]
+
+        col_time.append(dbc)
+        # for x in dbc:
+        #     rt = db.execute("SELECT day, time from timeslots where ")
+        print(dbc, len(dbc))
+
+    print(col_time)
+
+
+    return render_template("output5.html", col_cid=col_cid, col_cname=col_cname, col_fmail=col_fmail, col_fname=col_fname,
+                           col_dept=col_dept, col_room=col_room, col_stu = col_stu, col_time = col_time)
+
 
 @app.route("/faculty", methods=["GET", "POST"])
 def faculty(session=session):
@@ -188,6 +315,18 @@ def getfac():
     if request.method=='GET':
         dept= request.args.get('dept')
         faculty=db.execute("select facultyname from faculty where dept = :dept;", {"dept":dept}).fetchall()
+        data=[]
+        for row in faculty:
+            data.append(list(row))
+        print(data)
+        return json.dumps(data)
+    return "Nothing"
+
+@app.route('/getcou', methods=['GET','POST'])
+def getcou():
+    if request.method=='GET':
+        dept= request.args.get('dept')
+        faculty=db.execute("select Course_ID from courses where dept = :dept;", {"dept":dept}).fetchall()
         data=[]
         for row in faculty:
             data.append(list(row))
@@ -307,5 +446,6 @@ def captcha():
             flash("Captcha Failed! Please Retry")
             return render_template("home.html")
     return render_template('captcha.html')
+
 
 

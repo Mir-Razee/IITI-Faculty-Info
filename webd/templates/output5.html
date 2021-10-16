@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block nav %}
+
+{% endblock %}
+
+
+{% block content %}
+<style>
+    button{
+        width: 100%;
+    }
+</style>
+<body>
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" >
+    <h2 class="w3-wide">COURSE INFORMATION</h2>
+    <br>
+    </div>
+</div>
+
+<div class="w3-container w3-content w3-center w3-padding-16" style="max-width:800px">
+  <h3>COURSE IDs:</h3><br>
+  <table style="width:100%" class="w3-container w3-content w3-center w3-padding-16">
+  <tr>
+    <th>Department</th>
+    <th>Course Name</th>
+    <th>Course ID</th>
+    <th>Faculty Name</th>
+    <th>Faculty Mail</th>
+    <th>No of Student</th>
+    <th>Room No.</th>
+    <th>Slot Timings</th>
+  </tr>
+
+    {% for i in range(col_cid|length) %}
+    <tr>
+      <td>{{col_dept[i]}}</td>
+      <td>{{col_cname[i]}}</td>
+      <td>{{col_cid[i]}}</td>
+      <td>{{col_fname[i]}}</td>
+      <td>{{col_fmail[i]}}</td>
+      <td>{{col_stu[i]}}</td>
+      <td>{{col_room[i]}}</td>
+      <td>{{col_time[i]}}</td>
+
+    </tr>
+      {% endfor %}
+
+
+</table>
+</div>
+
+<div class="w3-container w3-content w3-center w3-padding-16" style="max-width:800px">
+    <h3>REF</h3><br>
+  <table style="width:100%" class="w3-container w3-content w3-center w3-padding-16">
+  <tr>
+    <th>Day</th>
+    <th>8-8:50 am</th>
+    <th>9-9:50 am</th>
+    <th>10-10:50 am</th>
+    <th>11-11:50 am</th>
+    <th>12-12:50 pm</th>
+    <th>1-1:50 pm</th>
+    <th>2-2:50 pm </th>
+    <th>3-3:50 pm</th>
+    <th>4-4:50 pm</th>
+    <th>5-5:50 pm</th>
+  </tr>
+
+    <tr>
+      <td><b>Monday</b></td>
+      <td>Mon0</td>
+      <td>Mon1</td>
+      <td>Mon2</td>
+      <td>Mon3</td>
+      <td>Mon4</td>
+      <td>Mon5</td>
+      <td>Mon6</td>
+      <td>Mon7</td>
+      <td>Mon8</td>
+      <td>Mon9</td>
+    </tr>
+    <tr>
+      <td><b>Tuesday</b></td>
+      <td>Tue0</td>
+      <td>Tue1</td>
+      <td>Tue2</td>
+      <td>Tue3</td>
+      <td>Tue4</td>
+      <td>Tue5</td>
+      <td>Tue6</td>
+      <td>Tue7</td>
+      <td>Tue8</td>
+      <td>Tue9</td>
+    </tr>
+    <tr>
+      <td><b>Wednesday</b></td>
+      <td>Wed0</td>
+      <td>Wed1</td>
+      <td>Wed2</td>
+      <td>Wed3</td>
+      <td>Wed4</td>
+      <td>Wed5</td>
+      <td>Wed6</td>
+      <td>Wed7</td>
+      <td>Wed8</td>
+      <td>Wed9</td>
+    </tr>
+    <tr>
+      <td><b>Thursday</b></td>
+      <td>Thu0</td>
+      <td>Thu1</td>
+      <td>Thu2</td>
+      <td>Thu3</td>
+      <td>Thu4</td>
+      <td>Thu5</td>
+      <td>Thu6</td>
+      <td>Thu7</td>
+      <td>Thu8</td>
+      <td>Thu9</td>
+    </tr>
+    <tr>
+        <td><b>Friday</b></td>
+      <td>Fri0</td>
+      <td>Fri1</td>
+      <td>Fri2</td>
+      <td>Fri3</td>
+      <td>Fri4</td>
+      <td>Fri5</td>
+      <td>Fri6</td>
+      <td>Fri7</td>
+      <td>Fri8</td>
+      <td>Fri9</td>
+    </tr>
+    <tr>
+      <td><b>Saturday</b></td>
+      <td>Sat0</td>
+      <td>Sat1</td>
+      <td>Sat2</td>
+      <td>Sat3</td>
+      <td>Sat4</td>
+      <td>Sat5</td>
+      <td>Sat6</td>
+      <td>Sat7</td>
+      <td>Sat8</td>
+      <td>Sat9</td>
+    </tr>
+
+
+
+</table>
+</div>
+<div class="w3-container w3-padding-16" style="max-width:800px">
+<p>.</p>
+<p>.</p>
+<p>.</p>
+<p>.</p>
+</div>
+
+
+</body>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+{% endblock %}

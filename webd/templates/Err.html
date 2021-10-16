@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock %}
+
+{% block nav %}
+<ul class="navbar-nav">
+  <li class="nav-item">
+  <form action="/login">
+      <button class="btn btn-light" type="submit">Sign in(for admin only)</button>
+  </form>
+  </li>
+</ul>
+{% endblock %}
+
+
+{% block content %}
+<h1>No Course Available</h1>
+{% endblock %}
