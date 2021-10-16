@@ -29,10 +29,21 @@ Form
 			<input type="text" name="name" id="name" required>
 			<label for="name">Faculty Name</label>
 		</div>
-		<div class="input-group">
-			<input type="text" name="dept" id="dept" required>
-			<label for="dept">Department name</label>
-		</div>
+		<div >
+			<label>Department</label> <br>
+			<select  name="dept" id="dept" placeholder="Select a department" required>
+			  <option value="CSE" selected>CSE</option>
+			  <option value="ME">ME</option>
+			  <option value="EE">EE</option>
+			  <option value="CE">CE</option>
+			  <option value="MEMS">MEMS</option>
+			  <option value="Mathematics">Mathematics</option>
+			  <option value="HSC">HSC</option>
+			  <option value="BSBE">BSBE</option>
+			  <option value="Physics">Physics</option>
+			  <option value="Astronomy">Astronomy</option>
+			</select>
+      	</div>
 		<input type ="submit" value="Register" class="submit-btn">
 	</form>
 </div>

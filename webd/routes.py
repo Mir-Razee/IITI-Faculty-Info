@@ -43,11 +43,12 @@ def form():
     user = dict(session).get('profile', None)
     email = user.get("email")
     table_data = db.execute("SELECT email FROM faculty WHERE email =:email", {"email": email}).fetchone()
-    dept = db.execute("SELECT dept from faculty where email= :email", {"email": email}).fetchone()
-    dept = dept[0]
+
     if email == "cse200001054@iiti.ac.in":
         return render_template('admin_form.html',user=user)
     elif table_data:
+        dept = db.execute("SELECT dept from faculty where email= :email", {"email": email}).fetchone()
+        dept = dept[0]
         return render_template('faculty_form.html',user=user, dept=dept)
     else:
         return "Please go back and Login as admin or faculty"

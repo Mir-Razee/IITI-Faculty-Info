@@ -12,7 +12,7 @@ primary key(email)
 );
 
 CREATE TABLE if not exists courses(
-Course_ID int NOT NULL,
+Course_ID varchar(45) NOT NULL,
 Course_name varchar(45),
 Dept varchar(45),
 primary key(Course_ID)
@@ -27,7 +27,7 @@ primary key(slot_ID)
 CREATE TABLE if not exists relation(
 facemail varchar(45),
 FOREIGN KEY(facemail) references faculty(email),
-course_ID INT,
+course_ID varchar(45),
 FOREIGN KEY(course_ID) references courses(Course_ID),
 no_of_students int,
 room_no varchar(45),
