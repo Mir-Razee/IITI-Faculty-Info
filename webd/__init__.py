@@ -34,9 +34,9 @@ google = oauth.register(
 )
 
 DATABASE_PASSWORD=os.getenv("DATABASE_PASSWORD")
-engine = create_engine(DATABASE_PASSWORD)##
+engine = create_engine(DATABASE_PASSWORD)
 
-#Check connection
+
 try:
     conn = engine.connect()
 except Exception as e:

@@ -4,7 +4,13 @@ Home
 {% endblock %}
 
 {% block nav %}
-
+<ul class="av navbar-nav navbar-right">
+  <li class="nav-item">
+  <form action="/login">
+      <button class="btn btn-light w3-green" type="submit">Sign in</button>
+  </form>
+  </li>
+</ul>
 {% endblock %}
 
 
@@ -15,16 +21,17 @@ Home
     }
 </style>
 <body>
-<div class="w3-content" style="max-width:2000px;margin-top:46px">
+<div class="w3-content" style="max-width:800px;margin-top:46px">
 
   <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" >
-    <h2 class="w3-wide">COURSE INFORMATION</h2>
-    <br>
+    <h2 class="w3-wide">Find all the faculties who have taught Course {{Z}} of Department {{Y}}</h2>
+    <hr class="solid w3-black">
     </div>
 </div>
 
+
 <div class="w3-container w3-content w3-center w3-padding-16" style="max-width:800px">
-  <h3>COURSE IDs:</h3><br>
+
   <table style="width:50%" class="w3-container w3-content w3-center w3-padding-16">
   <tr>
     <th>Faculty Name</th>

@@ -121,16 +121,23 @@ def admin():
 
 @app.route("/info", methods=["GET","POST"])
 def qwery():
-    y1=2011
-    y2=2021
+
     Department = request.form['dept']
     Faculty = request.form['fac']
     y1 = request.form['from_year']
     y2 = request.form['to_year']
+    if len(y1)==0 or len(y2)==0:
+        y1 = 2011
+        y2 = 2021
+    if Department=="Select a Department" or Faculty=="Select a Faculty":
+        return render_template("Err.html")
+
     FAC_MAIL = db.execute("SELECT email FROM faculty WHERE facultyname =:facultyname",
                           {"facultyname": Faculty}).fetchone()
+
     C_ID = db.execute("SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2",
                             {"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
+
 
     if len(C_ID) == 0:
         return render_template("Err.html")
@@ -141,8 +148,8 @@ def qwery():
     C_ID = list(my_function(C_ID))
     C_NAME = db.execute("SELECT Course_name FROM courses WHERE Course_ID = ANY (SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2);",{"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
 
-    print(C_ID[0],FAC_MAIL[0],C_NAME[0])
-    return render_template("output1_2.html",cid=C_ID,size=len(C_ID),cname=C_NAME)
+
+    return render_template("output1_2.html",cid=C_ID,size=len(C_ID),cname=C_NAME,X=Faculty, Y=Department, y1=y1, y2=y2)
 
 @app.route("/info2", methods=["GET","POST"])
 def qwery2():
@@ -150,51 +157,52 @@ def qwery2():
     y2=2021
     Department = request.form['dept']
     Faculty = request.form['fac']
+    if Department=="Select a Department" or Faculty=="Select a Faculty":
+        return render_template("Err.html")
     FAC_MAIL = db.execute("SELECT email FROM faculty WHERE facultyname =:facultyname",
                           {"facultyname": Faculty}).fetchone()
     C_ID = db.execute("SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2",
                             {"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
     C_NAME = db.execute("SELECT Course_name FROM courses WHERE Course_ID = ANY (SELECT course_ID FROM relation WHERE facemail =:facemail AND year>=:y1 AND year<=:y2);",{"facemail":FAC_MAIL[0],"y1":y1,"y2":y2}).fetchall()
 
-    if len(C_ID)==0 and len(C_NAME)==0:
+    if len(C_ID)==0 and len(C_NAME)==0 and len(Faculty)==0 and len(FAC_MAIL)==0:
         return render_template("Err.html")
 
     def my_function(x):
         return list(dict.fromkeys(x))
     C_ID = list(my_function(C_ID))
     print(C_ID,FAC_MAIL[0])
-    return render_template("output1_2.html",cid=C_ID,size=len(C_ID),cname=C_NAME)
+    return render_template("output1_2.html",cid=C_ID,size=len(C_ID),cname=C_NAME,X=Faculty, Y=Department, y1=y1, y2=y2)
 
 @app.route("/info3", methods=["GET","POST"])
 def qwery3():
     Department = request.form['dept']
+    if Department=="Select a Department":
+        return render_template("Err.html")
     y1 = request.form['from_year']
     y2 = request.form['to_year']
     C = db.execute("SELECT Course_ID,Course_name FROM courses WHERE( Dept =:Dept AND Course_ID = ANY (SELECT course_ID FROM relation WHERE year>=:y1 AND year<=:y2));",
                             {"Dept":Department,"y1":y1,"y2":y2}).fetchall()
-    print(C,y1,y2)
-#    C_NAME = db.execute("SELECT Course_name FROM courses WHERE Course_ID = ANY (SELECT course_ID FROM relation WHERE year>=:y1 AND year<=:y2);",{"y1":y1,"y2":y2}).fetchall()
 
-    if len(C)==0:
+    if len(C)==0 and len(y1)==0 and len(y2)==0:
         return render_template("Err.html")
 
     def my_function(x):
         return list(dict.fromkeys(x))
     C = list(my_function(C))
 
-    return render_template("output3.html",cid=C,size=len(C))
+    return render_template("output3.html",cid=C,size=len(C),Dept=Department,y1=y1,y2=y2)
 
 @app.route("/info4", methods=["GET","POST"])
 def qwery4():
-    y1=2011
-    y2=2021
     Department = request.form['dept']
     C_ID = request.form['cou']
-
+    if Department=="Select a Department" or C_ID=="Select a Course":
+        return render_template("Err.html")
     FAC_NAME = db.execute("SELECT facultyname,email FROM faculty WHERE email = ANY (SELECT facemail FROM relation WHERE course_ID =:course_ID );",{"course_ID":C_ID}).fetchall()
 
     print(C_ID,FAC_NAME)
-    return render_template("output4.html",fac=FAC_NAME,size=len(FAC_NAME))
+    return render_template("output4.html",fac=FAC_NAME,size=len(FAC_NAME), Y=Department, Z=C_ID)
 
 @app.route("/info5", methods=["GET","POST"])
 def qwery5():
@@ -248,7 +256,7 @@ def qwery5():
 
 
     return render_template("output5.html", col_cid=col_cid, col_cname=col_cname, col_fmail=col_fmail, col_fname=col_fname,
-                           col_dept=col_dept, col_room=col_room, col_stu = col_stu, col_time = col_time)
+                           col_dept=col_dept, col_room=col_room, col_stu = col_stu, col_time = col_time,Y=Year,S=Sem)
 
 
 @app.route("/faculty", methods=["GET", "POST"])
@@ -306,9 +314,6 @@ def faculty(session=session):
     return render_template("faculty_form.html", user=user, dept=dept)
 
 
-@app.route("/data6",methods=["GET","POST"])
-def Data6():
-    return render_template("data6.html")
 
 @app.route('/getfac', methods=['GET','POST'])
 def getfac():
