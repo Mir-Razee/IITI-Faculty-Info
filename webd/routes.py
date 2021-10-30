@@ -108,17 +108,6 @@ def admin():
 
     return render_template("admin_form.html")
 
-# @app.route("/faculty", methods=["GET", "POST"])
-# def faculty(session=session):
-#     if request.method == "POST":
-#         email = request.form.get("email")
-#
-#         table_data = db.execute("SELECT email FROM faculty WHERE email =:email",
-#                                 {"email": email}).fetchone()
-#
-#     user = dict(session).get('profile', None)
-#     return render_template("faculty_form.html", user=user)
-
 @app.route("/info", methods=["GET","POST"])
 def qwery():
 
